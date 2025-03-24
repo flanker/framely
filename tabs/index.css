@@ -40,6 +40,7 @@ body {
   border-radius: 8px;
   overflow: auto;
   max-height: 80vh;
+  padding: 30px 0;
 }
 
 .screenshot-image {
@@ -51,4 +52,70 @@ body {
   padding: 40px;
   color: #5f6368;
   font-size: 16px;
+}
+
+.browser-frame-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  width: 1024px;
+  max-width: 100%;
+}
+
+.no-frame {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.browser-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+.browser-svg {
+  flex-shrink: 0;
+}
+
+.screenshot-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.screenshot-image-no-frame {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.frame-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.action-button {
+  padding: 8px 16px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #1765cc;
 }
