@@ -26,6 +26,12 @@
   "manifest": {
     "host_permissions": [
       "https://*/*"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "downloads",
+      "storage"
     ]
   }
 }
