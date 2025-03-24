@@ -1,3 +1,4 @@
+import html2canvas from "html2canvas"
 import { useEffect, useRef, useState } from "react"
 
 import "./index.css"
@@ -17,15 +18,43 @@ export default function Screenshot() {
     }
   }, [])
 
-  // download image
-  // TODO: download image with frame
-  const downloadImage = () => {
+  // download image with frame if enabled
+  const downloadImage = async () => {
     if (!screenshot) return
 
-    const link = document.createElement("a")
-    link.href = screenshot
-    link.download = `framely-${new Date().getTime()}.png`
-    link.click()
+    if (showFrame && containerRef.current) {
+      try {
+        // Use html2canvas to capture the container with frame
+        const canvas = await html2canvas(containerRef.current, {
+          allowTaint: true,
+          useCORS: true,
+          logging: false,
+          scale: 2 // Higher quality
+        })
+
+        // Get image data from canvas
+        const imgData = canvas.toDataURL("image/png")
+
+        // Download the image with frame
+        const link = document.createElement("a")
+        link.href = imgData
+        link.download = `framely-${new Date().getTime()}.png`
+        link.click()
+      } catch (error) {
+        console.error("Failed to download with frame:", error)
+        // Fallback to downloading just the screenshot
+        const link = document.createElement("a")
+        link.href = screenshot
+        link.download = `framely-${new Date().getTime()}.png`
+        link.click()
+      }
+    } else {
+      // Download just the screenshot without frame
+      const link = document.createElement("a")
+      link.href = screenshot
+      link.download = `framely-${new Date().getTime()}.png`
+      link.click()
+    }
   }
 
   // Copy the entire framed screenshot to clipboard
@@ -33,36 +62,12 @@ export default function Screenshot() {
     if (!containerRef.current) return
 
     try {
-      // Create a temporary canvas element
-      const canvas = document.createElement("canvas")
-      const context = canvas.getContext("2d")
-      if (!context) throw new Error("Cannot create canvas context")
-
-      // Get container dimensions
-      const container = containerRef.current
-      const { width, height } = container.getBoundingClientRect()
-
-      // Set canvas dimensions
-      canvas.width = width
-      canvas.height = height
-
-      // Draw HTML to canvas
-      const svgData = new XMLSerializer().serializeToString(container)
-      const img = new Image()
-
-      // Create SVG Blob
-      const svgBlob = new Blob([svgData], {
-        type: "image/svg+xml;charset=utf-8"
-      })
-      const url = URL.createObjectURL(svgBlob)
-
-      // Draw to canvas when image is loaded
-      await new Promise((resolve) => {
-        img.onload = () => {
-          context.drawImage(img, 0, 0, width, height)
-          resolve(null)
-        }
-        img.src = url
+      // Use html2canvas to capture the container
+      const canvas = await html2canvas(containerRef.current, {
+        allowTaint: true,
+        useCORS: true,
+        logging: false,
+        scale: 2 // Higher quality
       })
 
       // Get image data from canvas
@@ -75,9 +80,6 @@ export default function Screenshot() {
       ])
 
       alert("Copied to clipboard!")
-
-      // Cleanup
-      URL.revokeObjectURL(url)
     } catch (error) {
       console.error("Failed to copy to clipboard:", error)
       alert("Copy failed, please try right-clicking the image to copy manually")
@@ -117,25 +119,25 @@ export default function Screenshot() {
                 <svg
                   className="browser-svg"
                   width="1024"
-                  height="44"
-                  viewBox="0 0 1024 44"
+                  height="36"
+                  viewBox="0 0 1024 36"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   {/* browser top bar background */}
                   <path
-                    d="M0 8C0 3.58172 3.58172 0 8 0H1016C1020.42 0 1024 3.58172 1024 8V44H0V8Z"
+                    d="M0 8C0 3.58172 3.58172 0 8 0H1016C1020.42 0 1024 3.58172 1024 8V36H0V8Z"
                     fill="#F2F2F2"
                   />
 
                   {/* window control buttons */}
-                  <circle cx="24" cy="22" r="6" fill="#FF5F56" />
-                  <circle cx="46" cy="22" r="6" fill="#FFBD2E" />
-                  <circle cx="68" cy="22" r="6" fill="#27C93F" />
+                  <circle cx="24" cy="18" r="6" fill="#FF5F56" />
+                  <circle cx="46" cy="18" r="6" fill="#FFBD2E" />
+                  <circle cx="68" cy="18" r="6" fill="#27C93F" />
 
                   {/* address bar */}
                   <rect
                     x="162"
-                    y="12"
+                    y="8"
                     width="700"
                     height="20"
                     rx="10"
