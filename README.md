@@ -1,8 +1,18 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+# Framely
 
-## Getting Started
+A browser extension built with [Plasmo](https://docs.plasmo.com/), providing enhanced functionality for your browsing experience.
 
-First, run the development server:
+## Installation
+
+```bash
+pnpm install
+# or
+npm install
+```
+
+## Development
+
+Start the development server:
 
 ```bash
 pnpm dev
@@ -10,15 +20,23 @@ pnpm dev
 npm run dev
 ```
 
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+### Loading the Extension
 
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
+1. Open your browser's extension management page:
 
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
+   - Chrome: `chrome://extensions/`
+   - Firefox: `about:debugging#/runtime/this-firefox`
+   - Edge: `edge://extensions/`
 
-## Making production build
+2. Enable "Developer mode"
 
-Run the following:
+3. Load the unpacked extension from the `build` directory:
+   - For Chrome/Edge (MV3): `build/chrome-mv3-dev`
+   - For Firefox: `build/firefox-mv2-dev`
+
+## Building for Production
+
+Create a production build:
 
 ```bash
 pnpm build
@@ -26,8 +44,16 @@ pnpm build
 npm run build
 ```
 
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
+The production bundle will be generated in the `build` directory, ready for distribution.
 
-## Submit to the webstores
+## Contributing
 
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Resources
+
+- [Plasmo Documentation](https://docs.plasmo.com/)
