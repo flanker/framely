@@ -18,6 +18,25 @@ body {
   margin-bottom: 20px;
 }
 
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #5f6368;
+  margin-top: 2px;
+}
+
 .download-button {
   padding: 8px 16px;
   background-color: #1a73e8;

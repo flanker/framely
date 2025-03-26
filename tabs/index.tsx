@@ -95,7 +95,10 @@ export default function Screenshot() {
   return (
     <div className="screenshot-page">
       <header className="header">
-        <h1 className="title">Framely</h1>
+        <div className="title-container">
+          <h1 className="title">Framely</h1>
+          <span className="subtitle">Stylish Browser Frames</span>
+        </div>
         <div className="actions">
           {/* <label className="frame-toggle">
             <input type="checkbox" checked={showFrame} onChange={toggleFrame} />
@@ -176,9 +179,7 @@ export default function Screenshot() {
         </a>
       </p>
       {showNotification && (
-        <div className="notification">
-          Copied to clipboard!
-        </div>
+        <div className="notification">Copied to clipboard!</div>
       )}
     </div>
   )

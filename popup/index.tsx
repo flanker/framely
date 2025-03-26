@@ -45,14 +45,14 @@ export default function Popup() {
     <div className="popup-container">
       <h1 className="title">Framely</h1>
       <p className="description">
-        click the button below to capture the current page
+        Click the button below to capture the current page
       </p>
 
       <button
         className="capture-button"
         onClick={captureAndOpen}
         disabled={isLoading}>
-        {isLoading ? "capturing..." : "capture page"}
+        {isLoading ? "Capturing..." : "Capture page"}
       </button>
     </div>
   )
