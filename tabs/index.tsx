@@ -22,38 +22,30 @@ export default function Screenshot() {
   const downloadImage = async () => {
     if (!screenshot) return
 
-    if (showFrame && containerRef.current) {
-      try {
-        // Use html2canvas to capture the container with frame
-        const canvas = await html2canvas(containerRef.current, {
+    try {
+      // Use html2canvas to capture the container with frame and background
+      const canvas = await html2canvas(
+        containerRef.current?.parentElement || document.body,
+        {
           allowTaint: true,
           useCORS: true,
           logging: false,
-          scale: 2 // Higher quality
-        })
+          scale: 2, // Higher quality
+          backgroundColor: null // Allow background to show through
+        }
+      )
 
-        // Get image data from canvas
-        const imgData = canvas.toDataURL("image/png")
+      // Get image data from canvas
+      const imgData = canvas.toDataURL("image/png")
 
-        // Download the image with frame
-        const link = document.createElement("a")
-        link.href = imgData
-        link.download = `framely-${new Date().getTime()}.png`
-        link.click()
-      } catch (error) {
-        console.error("Failed to download with frame:", error)
-        // Fallback to downloading just the screenshot
-        const link = document.createElement("a")
-        link.href = screenshot
-        link.download = `framely-${new Date().getTime()}.png`
-        link.click()
-      }
-    } else {
-      // Download just the screenshot without frame
+      // Download the image
       const link = document.createElement("a")
-      link.href = screenshot
+      link.href = imgData
       link.download = `framely-${new Date().getTime()}.png`
       link.click()
+    } catch (error) {
+      console.error("Failed to download:", error)
+      alert("Download failed, please try again")
     }
   }
 
@@ -62,13 +54,17 @@ export default function Screenshot() {
     if (!containerRef.current) return
 
     try {
-      // Use html2canvas to capture the container
-      const canvas = await html2canvas(containerRef.current, {
-        allowTaint: true,
-        useCORS: true,
-        logging: false,
-        scale: 2 // Higher quality
-      })
+      // Use html2canvas to capture the container with frame and background
+      const canvas = await html2canvas(
+        containerRef.current?.parentElement || document.body,
+        {
+          allowTaint: true,
+          useCORS: true,
+          logging: false,
+          scale: 2, // Higher quality
+          backgroundColor: null // Allow background to show through
+        }
+      )
 
       // Get image data from canvas
       const imgData = canvas.toDataURL("image/png")
@@ -96,15 +92,15 @@ export default function Screenshot() {
       <header className="header">
         <h1 className="title">Framely</h1>
         <div className="actions">
-          <label className="frame-toggle">
+          {/* <label className="frame-toggle">
             <input type="checkbox" checked={showFrame} onChange={toggleFrame} />
             show browser frame
-          </label>
+          </label> */}
           <button className="action-button" onClick={copyToClipboard}>
-            copy image
+            Copy
           </button>
           <button className="action-button" onClick={downloadImage}>
-            download image
+            Download
           </button>
         </div>
       </header>
@@ -166,6 +162,14 @@ export default function Screenshot() {
           <div className="loading-message">loading screenshot...</div>
         )}
       </div>
+      <p className="home-link-container">
+        <a
+          href="https://chromewebstore.google.com/detail/framely/hgmdobenglfkhkibfipobpplnmbobnbi"
+          target="_blank"
+          className="home-link">
+          Home page
+        </a>
+      </p>
     </div>
   )
 }

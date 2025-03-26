@@ -36,16 +36,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #e8eaed;
-  border-radius: 8px;
   overflow: auto;
   max-height: 80vh;
-  padding: 30px 0;
+  padding: 32px;
+  background: rgb(255, 255, 255);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
+  border-radius: 8px;
 }
 
 .screenshot-image {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  display: block;
+  background-color: white;
 }
 
 .loading-message {
@@ -63,6 +70,9 @@ body {
   background-color: white;
   width: 1024px;
   max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .no-frame {
@@ -79,16 +89,13 @@ body {
   flex-shrink: 0;
 }
 
-.screenshot-image {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 .screenshot-image-no-frame {
   max-width: 100%;
   height: auto;
   display: block;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .actions {
@@ -118,4 +125,24 @@ body {
 
 .action-button:hover {
   background-color: #1765cc;
+}
+
+.home-link-container {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.home-link {
+  display: inline-block;
+  padding: 8px 16px;
+  color: #1a73e8;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.home-link:hover {
+  background-color: rgba(26, 115, 232, 0.1);
+  text-decoration: underline;
 }
