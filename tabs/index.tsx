@@ -6,6 +6,7 @@ import "./index.css"
 export default function Screenshot() {
   const [screenshot, setScreenshot] = useState<string | null>(null)
   const [showFrame, setShowFrame] = useState(true)
+  const [showNotification, setShowNotification] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -75,7 +76,11 @@ export default function Screenshot() {
         new ClipboardItem({ "image/png": blob })
       ])
 
-      alert("Copied to clipboard!")
+      // Show notification
+      setShowNotification(true)
+      setTimeout(() => {
+        setShowNotification(false)
+      }, 2000)
     } catch (error) {
       console.error("Failed to copy to clipboard:", error)
       alert("Copy failed, please try right-clicking the image to copy manually")
@@ -170,6 +175,11 @@ export default function Screenshot() {
           Home page
         </a>
       </p>
+      {showNotification && (
+        <div className="notification">
+          Copied to clipboard!
+        </div>
+      )}
     </div>
   )
 }
