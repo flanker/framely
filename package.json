@@ -29,10 +29,7 @@
       "https://*/*"
     ],
     "permissions": [
-      "activeTab",
-      "scripting",
-      "downloads",
-      "storage"
+      "activeTab"
     ]
   }
 }
