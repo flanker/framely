@@ -6,13 +6,102 @@ interface OverlayProps {
   onClose: () => void
 }
 
-// Inline gradient (rgb) so html2canvas can parse it. Tailwind v4 emits
-// oklch() colors which html2canvas cannot read and would render transparent.
-const GRADIENT_BG = "linear-gradient(to right, #86efac, #c084fc)"
+// Inline gradients/solids using hex/rgb so html2canvas can parse them.
+// Tailwind v4 emits oklch() colors which html2canvas cannot read and would
+// render transparent — keep all preset values in hex/rgb form.
+interface BackgroundPreset {
+  id: string
+  name: string
+  css: string
+}
+
+const BACKGROUNDS: BackgroundPreset[] = [
+  {
+    id: "mint-lavender",
+    name: "Mint → Lavender",
+    css: "linear-gradient(to right, #86efac, #c084fc)"
+  },
+  {
+    id: "sunset",
+    name: "Sunset",
+    css: "linear-gradient(135deg, #ff9a9e, #fad0c4)"
+  },
+  {
+    id: "peach",
+    name: "Peach",
+    css: "linear-gradient(135deg, #ffecd2, #fcb69f)"
+  },
+  {
+    id: "rose",
+    name: "Rose",
+    css: "linear-gradient(135deg, #ff758c, #ff7eb3)"
+  },
+  {
+    id: "lavender-pink",
+    name: "Lavender Pink",
+    css: "linear-gradient(135deg, #a18cd1, #fbc2eb)"
+  },
+  {
+    id: "indigo-violet",
+    name: "Indigo Violet",
+    css: "linear-gradient(135deg, #6366f1, #a855f7)"
+  },
+  {
+    id: "ocean",
+    name: "Ocean",
+    css: "linear-gradient(135deg, #2193b0, #6dd5ed)"
+  },
+  {
+    id: "teal-sky",
+    name: "Teal Sky",
+    css: "linear-gradient(135deg, #0ea5e9, #22d3ee)"
+  },
+  {
+    id: "mint-sky",
+    name: "Mint Sky",
+    css: "linear-gradient(135deg, #a1ffce, #faffd1)"
+  },
+  {
+    id: "forest",
+    name: "Forest",
+    css: "linear-gradient(135deg, #134e5e, #71b280)"
+  },
+  {
+    id: "sunrise",
+    name: "Sunrise",
+    css: "linear-gradient(135deg, #f6d365, #fda085)"
+  },
+  {
+    id: "deep-night",
+    name: "Deep Night",
+    css: "linear-gradient(135deg, #0f2027, #2c5364)"
+  },
+  {
+    id: "white",
+    name: "White",
+    css: "linear-gradient(#ffffff, #ffffff)"
+  },
+  {
+    id: "soft-gray",
+    name: "Soft Gray",
+    css: "linear-gradient(#f3f4f6, #f3f4f6)"
+  },
+  {
+    id: "charcoal",
+    name: "Charcoal",
+    css: "linear-gradient(#1f2937, #1f2937)"
+  }
+]
+
+const DEFAULT_BG = BACKGROUNDS[0]
 
 export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
   const [showFrame] = useState(true)
   const [showNotification, setShowNotification] = useState(false)
+  const [selectedBg, setSelectedBg] = useState<BackgroundPreset>(DEFAULT_BG)
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const pickerRef = useRef<HTMLDivElement>(null)
+  const pickerButtonRef = useRef<HTMLButtonElement>(null)
   const [imgSize, setImgSize] = useState<{ w: number; h: number } | null>(null)
   const [areaSize, setAreaSize] = useState<{ w: number; h: number } | null>(
     null
@@ -52,14 +141,36 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     return () => ro.disconnect()
   }, [])
 
-  // close on ESC
+  // close on ESC (close picker first if open, otherwise close overlay)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
+      if (e.key !== "Escape") return
+      if (pickerOpen) {
+        setPickerOpen(false)
+      } else {
+        onClose()
+      }
     }
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
-  }, [onClose])
+  }, [onClose, pickerOpen])
+
+  // close picker on outside click
+  useEffect(() => {
+    if (!pickerOpen) return
+    const handleDown = (e: MouseEvent) => {
+      // We're inside a Shadow DOM (content script), so window-level events
+      // get retargeted to the shadow host. Use composedPath() to see the
+      // real element chain across the shadow boundary.
+      const path = e.composedPath()
+      if (pickerRef.current && path.includes(pickerRef.current)) return
+      if (pickerButtonRef.current && path.includes(pickerButtonRef.current))
+        return
+      setPickerOpen(false)
+    }
+    window.addEventListener("mousedown", handleDown, true)
+    return () => window.removeEventListener("mousedown", handleDown, true)
+  }, [pickerOpen])
 
   // Capture the screenshot-container with gradient background.
   // html2canvas does not traverse Shadow DOM, so we temporarily clone the
@@ -188,7 +299,7 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
             ref={captureRef}
             className="flex items-center justify-center overflow-hidden rounded-lg"
             style={{
-              backgroundImage: GRADIENT_BG,
+              backgroundImage: selectedBg.css,
               padding: `${FRAME_PADDING}px`,
               ...(frameW > 0
                 ? {
@@ -264,7 +375,7 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
         )}
       </div>
 
-      <div className="mt-3 shrink-0 rounded-xl border border-white/10 bg-white/5 p-2 px-4">
+      <div className="relative z-10 mt-3 shrink-0 rounded-xl border border-white/10 bg-white/5 p-2 px-4">
         <div className="flex items-center justify-between gap-4">
           {/* <div className="flex flex-col items-start">
             <a
@@ -276,6 +387,50 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
             </a>
           </div> */}
           <div className="flex items-center gap-3">
+            <div className="relative z-10">
+              <button
+                ref={pickerButtonRef}
+                className="flex h-8 cursor-pointer items-center gap-2 rounded border-none bg-white/5 px-3 text-sm text-white hover:bg-white/10"
+                onClick={() => setPickerOpen((v) => !v)}
+                aria-label="Change background"
+                aria-expanded={pickerOpen}>
+                <span
+                  className="block h-4 w-4 rounded-full border border-white/30"
+                  style={{ backgroundImage: selectedBg.css }}
+                />
+                <span>Background</span>
+              </button>
+              {pickerOpen && (
+                <div
+                  ref={pickerRef}
+                  className="absolute bottom-full right-0 z-50 mb-2 rounded-xl border border-white/10 bg-neutral-900/95 p-3 shadow-[0_10px_25px_rgba(0,0,0,0.35)] backdrop-blur">
+                  <div className="grid grid-cols-5 gap-2">
+                    {BACKGROUNDS.map((bg) => {
+                      const active = bg.id === selectedBg.id
+                      return (
+                        <button
+                          key={bg.id}
+                          type="button"
+                          title={bg.name}
+                          aria-label={bg.name}
+                          onClick={() => {
+                            setSelectedBg(bg)
+                            setPickerOpen(false)
+                          }}
+                          className={
+                            "h-9 w-9 cursor-pointer rounded-full border border-white/20 transition hover:scale-105 " +
+                            (active
+                              ? "ring-2 ring-white ring-offset-2 ring-offset-neutral-900"
+                              : "")
+                          }
+                          style={{ backgroundImage: bg.css }}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               className="cursor-pointer rounded border-none bg-white/5 px-4 h-8 text-sm text-white hover:bg-white/10"
               onClick={copyToClipboard}>
