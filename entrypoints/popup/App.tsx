@@ -56,13 +56,13 @@ export default function App() {
   }
 
   return (
-    <div className="popup-container">
-      <h1 className="title">Framely</h1>
-      <p className="description">
+    <div className="w-[300px] p-4 font-sans">
+      <h1 className="m-0 mb-2 text-xl font-bold text-blue-600">Framely</h1>
+      <p className="m-0 mb-4 text-sm text-gray-500">
         Click the button below to capture the current page
       </p>
       <button
-        className="capture-button"
+        className="w-full rounded bg-blue-600 px-2.5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
         onClick={captureAndShow}
         disabled={isLoading}>
         {isLoading ? "Capturing..." : "Capture page"}
