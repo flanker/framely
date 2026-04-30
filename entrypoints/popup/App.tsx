@@ -1,8 +1,8 @@
 import { useState } from "react"
 
-import "./index.css"
+import "./style.css"
 
-export default function Popup() {
+export default function App() {
   const [isLoading, setIsLoading] = useState(false)
 
   const captureAndOpen = async () => {
@@ -25,10 +25,10 @@ export default function Popup() {
       // create a new tab to display the screenshot
       await chrome.tabs.create(
         {
-          url: chrome.runtime.getURL("tabs/index.html"),
+          url: chrome.runtime.getURL("/tabs.html"),
           active: true
         },
-        (newTab) => {
+        () => {
           // use localStorage to pass the screenshot data
           localStorage.setItem("framely-screenshot", screenshotUrl)
         }
@@ -47,7 +47,6 @@ export default function Popup() {
       <p className="description">
         Click the button below to capture the current page
       </p>
-
       <button
         className="capture-button"
         onClick={captureAndOpen}

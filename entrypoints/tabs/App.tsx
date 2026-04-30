@@ -1,9 +1,9 @@
 import html2canvas from "html2canvas"
 import { useEffect, useRef, useState } from "react"
 
-import "./index.css"
+import "./style.css"
 
-export default function Screenshot() {
+export default function App() {
   const [screenshot, setScreenshot] = useState<string | null>(null)
   const [showFrame, setShowFrame] = useState(true)
   const [showNotification, setShowNotification] = useState(false)

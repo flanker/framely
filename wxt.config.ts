@@ -1,0 +1,13 @@
+import { defineConfig } from "wxt"
+
+// See https://wxt.dev/api/config.html
+export default defineConfig({
+  modules: ["@wxt-dev/module-react"],
+  manifest: {
+    name: "Framely: Stylish Browser Frames",
+    description:
+      "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
+    host_permissions: ["https://*/*"],
+    permissions: ["activeTab"]
+  }
+})

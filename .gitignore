@@ -26,8 +26,12 @@ out/
 build/
 dist/
 
-# plasmo
-.plasmo
+# wxt
+.wxt/
+.output/
+stats.html
+stats-*.json
+web-ext.config.ts
 
 # typescript
 .tsbuildinfo

@@ -1,6 +1,6 @@
 # Framely
 
-A browser extension built with [Plasmo](https://docs.plasmo.com/), providing enhanced functionality for your browsing experience.
+A browser extension built with [WXT](https://wxt.dev), providing enhanced functionality for your browsing experience.
 
 ## Installation
 
@@ -16,11 +16,11 @@ Start the development server:
 
 ```bash
 pnpm dev
-# or
-npm run dev
+# Firefox
+pnpm dev:firefox
 ```
 
-### Loading the Extension
+WXT will launch a browser with the extension preloaded. To load it manually instead:
 
 1. Open your browser's extension management page:
 
@@ -30,9 +30,9 @@ npm run dev
 
 2. Enable "Developer mode"
 
-3. Load the unpacked extension from the `build` directory:
-   - For Chrome/Edge (MV3): `build/chrome-mv3-dev`
-   - For Firefox: `build/firefox-mv2-dev`
+3. Load the unpacked extension from the `.output` directory:
+   - Chrome/Edge (MV3): `.output/chrome-mv3`
+   - Firefox: `.output/firefox-mv2`
 
 ## Building for Production
 
@@ -40,11 +40,19 @@ Create a production build:
 
 ```bash
 pnpm build
-# or
-npm run build
+# Firefox
+pnpm build:firefox
 ```
 
-The production bundle will be generated in the `build` directory, ready for distribution.
+The production bundle will be generated in the `.output` directory.
+
+To produce a distributable `.zip` for the web stores:
+
+```bash
+pnpm zip
+# Firefox
+pnpm zip:firefox
+```
 
 ## Contributing
 
@@ -56,4 +64,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Resources
 
-- [Plasmo Documentation](https://docs.plasmo.com/)
+- [WXT Documentation](https://wxt.dev)
