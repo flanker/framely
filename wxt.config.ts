@@ -13,6 +13,9 @@ export default defineConfig({
       "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
     host_permissions: ["<all_urls>"],
     permissions: ["activeTab", "storage"],
-    action: {}
+    action: {
+      default_title: "Capture screenshot with Framely"
+    },
+    homepage_url: "https://framelyapp.com"
   }
 })

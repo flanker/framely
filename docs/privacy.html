@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - Framely</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.65;
+        color: #333;
+        background: #f8f9fa;
+      }
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 60px 24px 80px;
+      }
+      a {
+        color: #1a73e8;
+      }
+      h1 {
+        font-size: 36px;
+        color: #1a73e8;
+        margin-bottom: 8px;
+      }
+      .updated {
+        color: #5f6368;
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        margin: 28px 0 10px;
+        color: #202124;
+      }
+      p,
+      li {
+        color: #3c4043;
+        margin-bottom: 10px;
+      }
+      ul {
+        padding-left: 22px;
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 24px;
+        font-size: 14px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/" class="back">&larr; Back to Framely</a>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: April 30, 2026</p>
+
+      <p>
+        Framely ("the extension") is a Chrome extension that captures the
+        currently visible browser tab and wraps the screenshot in a stylish
+        browser frame so you can share polished mockups. This page explains
+        what data Framely handles and how.
+      </p>
+
+      <h2>Summary</h2>
+      <ul>
+        <li>Framely runs entirely on your device.</li>
+        <li>No personal data, browsing history, or screenshots are sent to
+          any remote server.</li>
+        <li>No analytics, tracking, advertising, or third-party SDKs are
+          included.</li>
+        <li>No accounts, sign-in, or payments.</li>
+      </ul>
+
+      <h2>What Framely accesses</h2>
+      <ul>
+        <li>
+          <strong>The visible area of the active tab</strong> &mdash; only when
+          you click the Framely toolbar icon. The pixels are captured via
+          Chrome's <code>tabs.captureVisibleTab</code> API and used to render
+          the framed mockup.
+        </li>
+        <li>
+          <strong>Local browser storage</strong> &mdash; used as a temporary
+          handoff (key <code>framely-screenshot</code>) when the active page
+          cannot host the in-page overlay (for example
+          <code>chrome://</code> pages) and Framely opens a viewer tab
+          instead. This entry is overwritten on the next capture.
+        </li>
+        <li>
+          <strong>Host access on all sites</strong> &mdash; required so that
+          the screenshot capture and overlay can work on any page you
+          choose to invoke Framely from. Framely does not read page contents
+          beyond rendering its own overlay UI.
+        </li>
+      </ul>
+
+      <h2>Data sharing</h2>
+      <p>
+        Framely does not transmit, sell, share, or otherwise disclose any
+        data to third parties. Captured screenshots stay on your device
+        unless you explicitly export or share them yourself.
+      </p>
+
+      <h2>Remote code</h2>
+      <p>
+        Framely does not load or execute any remote code. All scripts are
+        bundled with the extension at publish time.
+      </p>
+
+      <h2>Children's privacy</h2>
+      <p>
+        Framely is not directed at children under 13 and does not knowingly
+        collect personal information from anyone.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If this policy changes, the updated version will be published at
+        this same URL with a new "Last updated" date.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions or requests? Open an issue at
+        <a href="https://github.com/flanker/framely/issues">the project
+          repository</a>.
+      </p>
+    </div>
+  </body>
+</html>
