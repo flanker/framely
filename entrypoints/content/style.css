@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+:host {
+  all: initial;
+}
+
+@keyframes framely-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes slideDown {
   from {
     transform: translate(-50%, -100%);
