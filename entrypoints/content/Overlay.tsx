@@ -180,10 +180,10 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
 
   return (
     <div className="fixed inset-0 z-[2147483647] box-border flex flex-col items-center justify-start overflow-hidden bg-black/90 p-8 font-sans">
-      <div className="relative box-border flex min-h-0 w-auto max-w-full flex-1 flex-col rounded-xl">
+      <div className="relative box-border flex min-h-0 w-full max-w-full flex-1 flex-col rounded-xl">
         <div
           ref={areaRef}
-          className="flex min-h-0 max-h-full max-w-full flex-1 items-center justify-center overflow-hidden">
+          className="flex min-h-0 w-full max-h-full max-w-full flex-1 items-center justify-center overflow-hidden">
           <div
             ref={captureRef}
             className="flex items-center justify-center overflow-hidden rounded-lg"
