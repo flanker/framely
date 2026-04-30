@@ -403,8 +403,11 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
               {pickerOpen && (
                 <div
                   ref={pickerRef}
-                  className="absolute bottom-full right-0 z-50 mb-2 rounded-xl border border-white/10 bg-neutral-900/95 p-3 shadow-[0_10px_25px_rgba(0,0,0,0.35)] backdrop-blur">
-                  <div className="grid grid-cols-5 gap-2">
+                  className="absolute bottom-full left-0 z-50 mb-2 rounded-xl border border-white/10 bg-neutral-800/95 shadow-[0_10px_25px_rgba(0,0,0,0.35)] backdrop-blur"
+                  style={{ padding: 16 }}>
+                  <div
+                    className="flex flex-wrap"
+                    style={{ width: 228, gap: 12 }}>
                     {BACKGROUNDS.map((bg) => {
                       const active = bg.id === selectedBg.id
                       return (
@@ -413,17 +416,19 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
                           type="button"
                           title={bg.name}
                           aria-label={bg.name}
-                          onClick={() => {
-                            setSelectedBg(bg)
-                            setPickerOpen(false)
-                          }}
+                          onClick={() => setSelectedBg(bg)}
                           className={
-                            "h-9 w-9 cursor-pointer rounded-full border border-white/20 transition hover:scale-105 " +
+                            "block shrink-0 cursor-pointer rounded-full border-2 border-white/40 p-0 transition hover:scale-105 " +
                             (active
-                              ? "ring-2 ring-white ring-offset-2 ring-offset-neutral-900"
+                              ? "ring-2 ring-white ring-offset-2 ring-offset-neutral-800"
                               : "")
                           }
-                          style={{ backgroundImage: bg.css }}
+                          style={{
+                            width: 36,
+                            height: 36,
+                            backgroundImage: bg.css,
+                            backgroundSize: "cover"
+                          }}
                         />
                       )
                     })}
