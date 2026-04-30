@@ -5,13 +5,17 @@
   "description": "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
   "author": "FENG Zhichao",
   "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build",
-    "package": "plasmo package"
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",
-    "plasmo": "0.90.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -21,15 +25,14 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
+    "@wxt-dev/module-react": "^1.2.2",
     "prettier": "3.2.4",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "wxt": "^0.20.25"
   },
-  "manifest": {
-    "host_permissions": [
-      "https://*/*"
-    ],
-    "permissions": [
-      "activeTab"
-    ]
+  "pnpm": {
+    "overrides": {
+      "@vitejs/plugin-react": "^4.7.0"
+    }
   }
 }
