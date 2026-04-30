@@ -7,7 +7,7 @@ export default defineConfig({
     name: "Framely: Stylish Browser Frames",
     description:
       "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
-    host_permissions: ["https://*/*"],
+    host_permissions: ["<all_urls>"],
     permissions: ["activeTab"]
   }
 })

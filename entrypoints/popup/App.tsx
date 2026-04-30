@@ -5,7 +5,7 @@ import "./style.css"
 export default function App() {
   const [isLoading, setIsLoading] = useState(false)
 
-  const captureAndOpen = async () => {
+  const captureAndShow = async () => {
     setIsLoading(true)
     try {
       // get current active tab
@@ -22,7 +22,21 @@ export default function App() {
       // capture visible area screenshot
       const screenshotUrl = await chrome.tabs.captureVisibleTab()
 
-      // create a new tab to display the screenshot
+      // try to show overlay in current page via content script
+      try {
+        await chrome.tabs.sendMessage(activeTab.id, {
+          type: "SHOW_OVERLAY",
+          screenshotUrl
+        })
+        window.close()
+        return
+      } catch (err) {
+        // content script not available (restricted pages like chrome://,
+        // chrome web store, etc.) — fall back to opening a new tab
+        console.warn("overlay injection failed, falling back to new tab:", err)
+      }
+
+      // fallback: open a new tab to display the screenshot
       await chrome.tabs.create(
         {
           url: chrome.runtime.getURL("/tabs.html"),
@@ -49,7 +63,7 @@ export default function App() {
       </p>
       <button
         className="capture-button"
-        onClick={captureAndOpen}
+        onClick={captureAndShow}
         disabled={isLoading}>
         {isLoading ? "Capturing..." : "Capture page"}
       </button>
