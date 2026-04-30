@@ -10,13 +10,14 @@ export default function App() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // get screenshot data from localStorage
-    const screenshotData = localStorage.getItem("framely-screenshot")
-    if (screenshotData) {
-      setScreenshot(screenshotData)
-      // clear localStorage data
-      localStorage.removeItem("framely-screenshot")
-    }
+    // get screenshot data from chrome.storage.local (set by background)
+    chrome.storage.local.get("framely-screenshot", (result) => {
+      const screenshotData = result["framely-screenshot"]
+      if (typeof screenshotData === "string" && screenshotData) {
+        setScreenshot(screenshotData)
+        chrome.storage.local.remove("framely-screenshot")
+      }
+    })
   }, [])
 
   // download image with frame if enabled

@@ -12,6 +12,7 @@ export default defineConfig({
     description:
       "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
     host_permissions: ["<all_urls>"],
-    permissions: ["activeTab"]
+    permissions: ["activeTab", "storage"],
+    action: {}
   }
 })
