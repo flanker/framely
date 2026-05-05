@@ -244,8 +244,12 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     document.body.appendChild(wrapper)
 
     try {
+      // captureVisibleTab() already returns at the device pixel ratio, and
+      // the clone is laid out at the screenshot's natural width — so we are
+      // already at 1:1 source resolution. A further scale > 1 would bloat
+      // the PNG without adding any real detail.
       const canvas = await domToCanvas(clone, {
-        scale: 2,
+        scale: 1,
         backgroundColor: null
       })
       return canvas
