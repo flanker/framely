@@ -1,4 +1,4 @@
-import html2canvas from "html2canvas"
+import { domToCanvas } from "modern-screenshot"
 import { useEffect, useRef, useState } from "react"
 
 interface OverlayProps {
@@ -6,9 +6,9 @@ interface OverlayProps {
   onClose: () => void
 }
 
-// Inline gradients/solids using hex/rgb so html2canvas can parse them.
-// Tailwind v4 emits oklch() colors which html2canvas cannot read and would
-// render transparent — keep all preset values in hex/rgb form.
+// Background presets are kept as plain CSS gradients/solids; modern-screenshot
+// renders via SVG foreignObject so the browser parses colors natively, which
+// means modern color functions (oklch/lab/lch/color) all work too.
 interface BackgroundPreset {
   id: string
   name: string
@@ -173,9 +173,9 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
   }, [pickerOpen])
 
   // Capture the screenshot-container with gradient background.
-  // html2canvas does not traverse Shadow DOM, so we temporarily clone the
-  // node into the light DOM along with the shadow root's <style> tags,
-  // capture it, then remove it.
+  // We clone the node into the light DOM along with the shadow root's <style>
+  // tags so the captured tree carries its own scoped styling, then remove the
+  // clone after capture.
   const captureCanvas = async (): Promise<HTMLCanvasElement | null> => {
     const source = captureRef.current
     if (!source) return null
@@ -244,10 +244,7 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     document.body.appendChild(wrapper)
 
     try {
-      const canvas = await html2canvas(clone, {
-        allowTaint: true,
-        useCORS: true,
-        logging: false,
+      const canvas = await domToCanvas(clone, {
         scale: 2,
         backgroundColor: null
       })

@@ -1,4 +1,4 @@
-import html2canvas from "html2canvas"
+import { domToCanvas } from "modern-screenshot"
 import { useEffect, useRef, useState } from "react"
 
 import "./style.css"
@@ -25,22 +25,16 @@ export default function App() {
     if (!screenshot) return
 
     try {
-      // Use html2canvas to capture the container with frame and background
-      const canvas = await html2canvas(
+      const canvas = await domToCanvas(
         containerRef.current?.parentElement || document.body,
         {
-          allowTaint: true,
-          useCORS: true,
-          logging: false,
-          scale: 2, // Higher quality
-          backgroundColor: null // Allow background to show through
+          scale: 2,
+          backgroundColor: null
         }
       )
 
-      // Get image data from canvas
       const imgData = canvas.toDataURL("image/png")
 
-      // Download the image
       const link = document.createElement("a")
       link.href = imgData
       link.download = `framely-${new Date().getTime()}.png`
@@ -56,22 +50,16 @@ export default function App() {
     if (!containerRef.current) return
 
     try {
-      // Use html2canvas to capture the container with frame and background
-      const canvas = await html2canvas(
+      const canvas = await domToCanvas(
         containerRef.current?.parentElement || document.body,
         {
-          allowTaint: true,
-          useCORS: true,
-          logging: false,
-          scale: 2, // Higher quality
-          backgroundColor: null // Allow background to show through
+          scale: 2,
+          backgroundColor: null
         }
       )
 
-      // Get image data from canvas
       const imgData = canvas.toDataURL("image/png")
 
-      // Copy to clipboard
       const blob = await (await fetch(imgData)).blob()
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob })
